@@ -1,4 +1,5 @@
 import React from 'react'
+import styles from "../assets/keyboard.module.css"
 
 const KEYS = [
   "a",
@@ -40,7 +41,7 @@ function Keyboard() {
     >
       {KEYS.map(key =>{
         return(
-          <button key={key}>{key}</button>
+          <button className={`${styles.btn}`} key={key}>{key}</button>
         )
       })}
 
