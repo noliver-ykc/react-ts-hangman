@@ -6,12 +6,13 @@ import HangmanDrawing from './components/HangmanDrawing';
 import HangmanWord from "./components/HangmanWord";
 import Keyboard from "./components/Keyboard";
 
+function getWord(){
+  return words[Math.floor(Math.random()*words.length)]
+}
 
 function App() {
   // spits out a random goal word
-  const [wordToGuess, setWordToGuess] = useState(() => {
-    return words[Math.floor(Math.random()*words.length)]
-  })
+  const [wordToGuess, setWordToGuess] = useState(getWord)
   // stores user input as an array of strings
   const [guessedLetters, setGuessedLetters] = useState<string[]>([])
 
@@ -49,6 +50,20 @@ function App() {
     }
   }, [guessedLetters])
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key;
+
+      if(key !== "Enter") return
+      e.preventDefault()
+      setGuessedLetters([])
+      setWordToGuess(getWord())
+    }
+    document.addEventListener("keypress", handler)
+    return () =>{
+      document.removeEventListener("keypress", handler)
+    }
+  }, [guessedLetters])
 
   return (
     <div
